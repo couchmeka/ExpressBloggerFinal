@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const Blog = require('./model/Blogs');
+const Blog = require('../model/Blogs');
 
 /* GET home page. */
 router.get('/', async function(req, res) {
@@ -18,9 +18,5 @@ console.log(e);
   
 });
 
-router.post("/create-one", async (req, res) =>{
-
-
-})
 
 module.exports = router;
