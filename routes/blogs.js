@@ -1,10 +1,20 @@
-// const { v4: uuidv4 } = require("uuid");
-// var express = require("express");
-// var router = express.Router();
-
+ const { v4: uuidv4 } = require("uuid");
+ var express = require("express");
+ var router = express.Router();
+ const Blog = require('./model/Blogs');
 // const { db } = require("../mongo");
 
-// router.get("/all", async function (req,res,next){
+router.get("/all", async function (req,res){
+
+  try {
+     const allBlogs = await Blog.find({});
+     res.json({ blogs: allBlogs})
+  } catch(e) {
+
+    console.log(e);
+
+  }
+});
 
 // try {     
 //   await db()
@@ -88,49 +98,43 @@
 //   console.log("third");
 // });
 
-// router.post("/create-one", async function (req, res, next) {
-//   try {
-//     const newPost = {
-//       id: uuidv4(),
-//       createdAt: new Date(),
-//       title: req.body.title,
-//       text: req.body.text,
-//       author: req.body.author,
-//       email: req.body.email,
-//       categories: req.body.categories,
-//       starRating: Number(req.body.starRating),
-//     };
+router.post("/create-one", async function (req, res, next) {
+  try {
+    //parse out fields from POST request
+    const title  = req.body.title 
+    const text = req.body.text 
+    const author = req.body.author
+    const categories = req.body.category
+    const year =  req.body.year;
 
-//     //debug: print out newPost
-//     console.log(newPost);
+    //pass fields to new Blog model 
+    //notice how it's way more organized and does the type checking for us
+    const newBlog = new Blog({
+        title,
+        text,
+        author,
+        categories,
+        year
+    });
 
-//     // Validation
+    //save our new entry to the database 
+    const savedData =  await newBlog.save();
+    
+    //return the successful request to the user 
+    res.json({
+        success: true,
+        blogs: savedData
+    });
 
-//     if (newPost.email === undefined || !newPost.email.split("@").length > 1) {
+  } catch (e) {
+    console.log(typeof e);
+    console.log(e);
+    res.json({
+      error: e.toString(),
+    });
+  }
+});
 
-//       res.json({
-//         success: false,
-//         message: "email invalid",
-//       });
-//     }
-
-//     //because insertONE is a WRITE Operation, you don't need 
-//     // to return insertOpREs to the user. Only do that when it's
-//     // a READ operation i.e.e (find, findOne etc.. )
-//     await db().collection("sample_blogs").insertOne(newPost);
-
-//     res.json({
-//       success: true,
-//       newPost,
-//     });
-//   } catch (e) {
-//     console.log(typeof e);
-//     console.log(e);
-//     res.json({
-//       error: e.toString(),
-//     });
-//   }
-// });
 
 // router.get("/get-multi", async function (req, res) {
 //   const sortField = req.query.sortField;
@@ -188,4 +192,4 @@
 // 	})
 // })
 
-// module.exports = router;
+module.exports = router;

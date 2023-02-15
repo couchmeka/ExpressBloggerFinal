@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5002;
 // we exported the module as index. 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-// var blogsRouter = require('./routes/blogs');
+var blogsRouter = require('./routes/blogs');
 
 //connecting to mongo db 
 var { mongooseConnect } = require('./mongoose.js');
@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //register routes 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// app.use('/blogs', blogsRouter);
+app.use('/blogs', blogsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
