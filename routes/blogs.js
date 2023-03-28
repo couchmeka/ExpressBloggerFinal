@@ -11,7 +11,7 @@ router.post('/create-one', blogsController.createOneBlog);
 router.get('/get-one/:id', blogsController.getOneBlog);
 router.get('/get-one/:title', blogsController.getOneBlogTitle);
 router.delete('/delete-one/:id', blogsController.deleteOneBlog);
-router.put('/update-blog', blogsController.updateOneBlog)
+router.put('/update-blog/:id', blogsController.updateOneBlog)
 
 // // router.get("/get-one-example", async function (req, res, next) {
 // //   const blogPosts = await db()

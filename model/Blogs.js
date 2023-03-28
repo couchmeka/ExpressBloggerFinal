@@ -14,7 +14,7 @@ const blogSchema = new mongoose.Schema({
 })
 
 //register model
-const Blog = mongoose.model("sample_blog", blogSchema)
+const Blog = mongoose.model("sample_blogs", blogSchema)
 
 
 //make model accessible to outside files

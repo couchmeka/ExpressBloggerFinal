@@ -3,11 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require("cors");
 
 //load environment variables from .env (.env is the default file)
 require("dotenv").config();
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 3000;
 
 //register routes.
 //NOTE: notice how there is .js after index, this is because
@@ -17,8 +18,9 @@ var usersRouter = require('./routes/users');
 var blogsRouter = require('./routes/blogs');
 
 //connecting to mongo db 
-var { mongooseConnect } = require('./mongoose.js');
-mongooseConnect();
+var { mongoConnect } = require('./mongo.js');
+mongoConnect();
+
 
 
 
@@ -33,7 +35,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(cors());
 //allows use to load static files from public 
 app.use(express.static(path.join(__dirname, 'public')));
 
